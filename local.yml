@@ -22,7 +22,7 @@
 
     - name: "Increment training counter fact"
       copy:
-        dest: {{ custom_fact_path }}
+        dest: "{{ custom_fact_path }}"
         content: '{ "counter": {{ new_training_counter }} }'
 
     - debug:
