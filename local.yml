@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  become: yes
+
+  vars:
+    custom_metric_path: "/opt/node_exporter/txt/pull_count.prom"
+
+  tasks:
+    - debug:
+        msg: "Counter: {{ ansible_local.training.counter }}"
+
+    - set_fact:
+        new_training_counter: "{{ ansible_local.training.counter + 1 }}"
+
+    - name: "Increment training counter fact"
+      copy:
+        dest: /etc/ansible/facts.d/training.fact
+        content: '{ "counter": {{ new_training_counter }} }'
+
+    - debug:
+        msg: "New counter: {{ new_training_counter }}"
