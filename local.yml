@@ -3,6 +3,8 @@
   become: yes
 
   vars:
+    ansible_user: lferrand
+    custom_fact_path: "/etc/ansible/facts.d/training.fact"
     custom_metric_path: "/opt/node_exporter/txt/pull_count.prom"
 
   tasks:
@@ -12,9 +14,15 @@
     - set_fact:
         new_training_counter: "{{ ansible_local.training.counter + 1 }}"
 
-    - name: "Increment training counter fact"
+    - name: "Increment training counter"
       copy:
         dest: /etc/ansible/facts.d/training.fact
+        content: |
+          training_counter{owner="{{ ansible_user }}"} {{ new_training_counter }}
+
+    - name: "Increment training counter fact"
+      copy:
+        dest: {{ custom_fact_path }}
         content: '{ "counter": {{ new_training_counter }} }'
 
     - debug:
