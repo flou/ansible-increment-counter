@@ -16,7 +16,7 @@
 
     - name: "Increment training counter"
       copy:
-        dest: /etc/ansible/facts.d/training.fact
+        dest: "{{ custom_metric_path }}"
         content: |
           training_counter{owner="{{ ansible_user }}"} {{ new_training_counter }}
 
