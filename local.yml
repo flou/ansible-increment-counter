@@ -1,6 +1,5 @@
 ---
 - hosts: localhost
-  become: yes
 
   vars:
     ansible_user: lferrand
